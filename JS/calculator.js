@@ -2,7 +2,8 @@ let number1;
 let number2;
 let operator;
 let valuesArray = [];
-let displayValues = " ";
+
+
 
 //add event listener to buttons
 const buttons = document.querySelectorAll('button');
@@ -11,19 +12,30 @@ buttons.forEach((button) => {
     // and for each one we add a 'click' listener
     button.addEventListener('click', () => {
         //add user input intto an array
-        valuesArray.push(button.id);
+        valuesArray.push(check(button.id));
+        //resets values
+        if (button.id == "clear") {
+            valuesArray = [];
+        }
         //display array (input of user)
         document.querySelector("#display").textContent = valuesArray.join(" ");
 
     });
 });
 
+function clearDisplay() {
+    const clear = document.getElementById("clear");
+    clear.addEventListener("click", () => {
+        document.getElementById("MyDiv").innerHTML = "";
 
-
-
-
-
-
+    })
+}
+//checks for clear
+function check(input) {
+    if (input != "clear") {
+        return input;
+    }
+}
 function add(n1, n2) {
     return n1 + n2;
 }
