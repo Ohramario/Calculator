@@ -2,6 +2,8 @@ let number1;
 let number2;
 let operator;
 let valuesArray = [];
+let numberArray = [];
+
 
 
 
@@ -17,11 +19,38 @@ buttons.forEach((button) => {
         if (button.id == "clear") {
             valuesArray = [];
         }
+
+        //see if operator inputed
+        findOperator(valuesArray);
+
+        
+
         //display array (input of user)
         document.querySelector("#display").textContent = valuesArray.join(" ");
+        
+
 
     });
 });
+
+function findOperator(array){
+    //convert Array into numbers
+    numberArray = valuesArray.map(Number);
+    //find the operator
+    numberArray.forEach((number) => {
+        if (isNaN(number)) {
+            let index = numberArray.indexOf(number);
+            operator = numberArray[index];
+            number1 = getNum1(index);
+        }
+    }) 
+}
+
+function getNum1(index) {
+
+    let newNumber = numberArray.slice(0, index);
+    number1 = newNumber.join("");
+}
 
 function clearDisplay() {
     const clear = document.getElementById("clear");
