@@ -2,7 +2,7 @@ let number1;
 let number2;
 let operator;
 let valuesArray = [];
-let numberArray = [];
+
 
 
 
@@ -13,43 +13,50 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
     // and for each one we add a 'click' listener
     button.addEventListener('click', () => {
-        //add user input intto an array
+        //add user input into an array
         valuesArray.push(check(button.id));
         //resets values
-        if (button.id == "clear") {
-            valuesArray = [];
-        }
-
-        //see if operator inputed
-        findOperator(valuesArray);
-
-        
-
-        //display array (input of user)
-        document.querySelector("#display").textContent = valuesArray.join(" ");
-        
-
-
+        findAction(button.id);
     });
 });
 
-function findOperator(array){
+function findAction(action) {
+    switch (action) {
+        case "clear":
+            valuesArray = [];
+            break;
+        case "=":
+            operate(number1, number2, action)
+            break;
+        default:
+            //see if operator inputed
+            findOperator(valuesArray);
+            //display array (input of user)
+            document.querySelector("#display").textContent = valuesArray.join(" ");
+    }
+
+
+
+}
+
+function findOperator(array) {
     //convert Array into numbers
-    numberArray = valuesArray.map(Number);
+
     //find the operator
-    numberArray.forEach((number) => {
+    valuesArray.forEach((number) => {
         if (isNaN(number)) {
-            let index = numberArray.indexOf(number);
-            operator = numberArray[index];
+            let index = valuesArray.indexOf(number);
+            operator = valuesArray[index];
             number1 = getNum1(index);
         }
-    }) 
+    })
 }
 
 function getNum1(index) {
 
-    let newNumber = numberArray.slice(0, index);
-    number1 = newNumber.join("");
+    let newNumber = valuesArray.slice(0, index).join("");
+    return Number(newNumber);
+
 }
 
 function clearDisplay() {
