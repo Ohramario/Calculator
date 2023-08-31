@@ -1,7 +1,10 @@
 let number1;
 let number2;
 let operator;
+let operatorIndex;
 let valuesArray = [];
+let display = document.querySelector("#display");
+let solution = "empty";
 
 //add event listener to buttons
 const buttons = document.querySelectorAll('button');
@@ -9,6 +12,12 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
     // and for each one we add a 'click' listener
     button.addEventListener('click', () => {
+        // clear previous soluton
+        if (solution != "empty"){
+            valuesArray = [];
+            clearDisplay();
+            solution = "empty";
+        }
         //add user input into an array, exluding clear
         valuesArray.push(check(button.id));
         //checks what needs to be done
@@ -23,25 +32,30 @@ function findAction(action) {
             clearDisplay();
             break;
         case "=":
-            operate(number1, number2, action)
+            getNum2();
+            operate(number1, number2, operator);
             break;
         default:
             //see if operator inputed
             findOperator(valuesArray);
             //display array (input of user)
-            document.querySelector("#display").textContent = valuesArray.join(" ");
+            display.textContent = valuesArray.join(" ");
     }
 }
 
 function findOperator(array) {
-    //find the operator
+    //find the operator and number1
     valuesArray.forEach((number) => {
         if (isNaN(number)) {
-            let index = valuesArray.indexOf(number);
-            operator = valuesArray[index];
-            number1 = getNum1(index);
+            operatorIndex = valuesArray.indexOf(number);
+            operator = valuesArray[operatorIndex];
+            number1 = getNum1(operatorIndex);
         }
     })
+}
+function getNum2() {
+    let newNum = valuesArray.slice(operatorIndex + 1, valuesArray.length - 1).join("");
+    number2 = Number(newNum);
 }
 
 function getNum1(index) {
@@ -49,17 +63,9 @@ function getNum1(index) {
     return Number(newNumber);
 }
 function clearDisplay() {
-    document.querySelector("#display").textContent = "";
+    display.textContent = "";
 }
 
-/*function clearDisplay() {
-    const clear = document.getElementById("clear");
-    clear.addEventListener("click", () => {
-        document.querySelector("#display").textContent = "";
-
-    })
-}
-*/
 //checks for clear
 function check(input) {
     if (input != "clear") {
@@ -80,7 +86,8 @@ function divide(n1, n2) {
 }
 
 function showResult(number) {
-    document.getElementById("display").innerHTML = number;
+    solution = number;
+    document.getElementById("display").innerHTML = solution;
 }
 
 function operate(number1, number2, operator) {
