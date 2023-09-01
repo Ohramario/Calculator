@@ -6,7 +6,6 @@ let valuesArray = [];
 let display = document.querySelector("#display");
 let solution = "empty";
 let interimSolution = "empty";
-
 //add event listener to buttons
 const buttons = document.querySelectorAll('button');
 // we use the .forEach method to iterate through each button
@@ -15,27 +14,28 @@ buttons.forEach((button) => {
     button.addEventListener('click', () => {
         // clear previous soluton
         if (solution != "empty") {
-            valuesArray = [];
-            clearDisplay();
-            solution = "empty";
-            number1 = "empty";
-            interimSolution = "empty";
+            clearVariables();
         }
 
         //add user input into an array, exluding clear
         valuesArray.push(check(button.id));
         //checks what needs to be done
         findAction(button.id);
-
-
     });
 });
+
+function clearVariables() {
+    valuesArray = [];
+    clearDisplay();
+    solution = "empty";
+    number1 = "empty";
+    interimSolution = "empty";
+}
 
 function findAction(action) {
     switch (action) {
         case "clear":
-            valuesArray = [];
-            clearDisplay();
+            clearVariables
             break;
         case "=":
             getNum2();
@@ -61,7 +61,7 @@ function findOperator(array) {
                 operator = valuesArray[operatorIndex];
                 number1 = getNum1(operatorIndex);
             }
-        })//looks for second operator 
+        })
     }
 }
 function getInterim() {
@@ -72,9 +72,7 @@ function getInterim() {
     operator = valuesArray[valuesArray.length - 1];
     valuesArray = [];
     valuesArray.push(number1, operator);
-
 }
-
 function getNum2() {
     let newNum = valuesArray.slice(operatorIndex + 1, valuesArray.length - 1).join("");
     number2 = Number(newNum);
@@ -103,12 +101,13 @@ function multiply(n1, n2) {
     return n1 * n2;
 }
 function divide(n1, n2) {
-    if (n2 = 0) {
-        alert("don't be silly dividing by 0!");
+    let number = n1 / n2;
+    if (number === Infinity) {
+        alert("Don't be silly trying to divide with 0 !")
+        
     } else {
-        return n1 / n2;
+        return number;
     }
-
 }
 
 function showResult(number) {
